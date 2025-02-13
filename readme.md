@@ -1,29 +1,44 @@
 # Node.js TypeScript Clean Architecture API
 
-## Table of Contents
+## 📑 Table of Contents
+
+### 🚀 Getting Started
 - [Project Overview](#project-overview)
 - [Features](#features)
 - [Prerequisites](#prerequisites)
+
+### 💻 Development Setup
 - [Getting Started](#getting-started)
-  - [PostgreSQL Setup](#postgresql-setup)
+  - 🐘 [PostgreSQL Setup](#postgresql-setup)
     - [For MacOS](#for-macos)
     - [For Ubuntu/Debian](#for-ubuntudebian)
-  - [Environment Setup](#environment-setup)
-  - [Database Migration](#database-migration)
+  - ⚙️ [Environment Setup](#environment-setup)
+  - 🔄 [Database Migration](#database-migration)
+
+### 🛠 Development & Testing
 - [Development](#development)
 - [API Testing](#api-testing)
   - [Users Endpoints](#users-endpoints)
 - [Running Tests](#running-tests)
-  - [Test Structure](#test-structure)
-  - [Running Tests](#running-tests-1)
-  - [Test Coverage](#test-coverage)
+  - 📋 [Test Structure](#test-structure)
+  - ⚡️ [Running Tests](#running-tests-1)
+  - 📊 [Test Coverage](#test-coverage)
+
+### 📚 Database Options
+- [Database Configuration](#database-configuration)
+  - [PostgreSQL (Default)](#postgresql-default)
+  - [MySQL](#mysql)
+  - [SQLite](#sqlite-lightweight-file-based)
+
+### 🔧 Maintenance & Tools
 - [Code Quality](#code-quality)
 - [Troubleshooting](#troubleshooting)
-  - [Database Issues (MacOS)](#database-issues-macos)
-  - [Database Issues (Ubuntu/Debian)](#database-issues-ubuntudebian)
-  - [Common Errors](#common-errors)
 - [Project Structure](#project-structure)
 - [Available Scripts](#available-scripts)
+
+### 📖 Technology Stack
+- [Core Technologies](#core-technologies)
+- [Development Tools](#development-tools)
 
 ## **Project Overview**
 This project implements a production-ready Node.js application using TypeScript and Clean Architecture principles. It includes a complete CRUD API with user management, database integration, validation, and logging.
@@ -310,6 +325,112 @@ Coverage reports are generated in the `coverage/` directory when running:
 ```bash
 npm run test:cov
 ```
+
+## Database Configuration
+
+Prisma supports multiple databases. Here's how to configure each one:
+
+### PostgreSQL (Default)
+```env
+DATABASE_URL="postgresql://myuser:mypassword@localhost:5432/mydb"
+```
+```bash
+# Install PostgreSQL
+brew install postgresql@14
+```
+
+### MySQL
+```env
+DATABASE_URL="mysql://myuser:mypassword@localhost:3306/mydb"
+```
+```bash
+# Install MySQL
+brew install mysql
+```
+
+### SQLite (Lightweight, file-based)
+```env
+DATABASE_URL="file:./dev.db"
+```
+No installation needed - perfect for development/testing.
+
+### Steps to Switch Databases:
+
+1. **Update schema.prisma**
+```prisma
+datasource db {
+  provider = "postgresql" // Change to "mysql" or "sqlite"
+  url      = env("DATABASE_URL")
+}
+```
+
+2. **Update .env file with new DATABASE_URL**
+
+3. **Reset Prisma**
+```bash
+# Generate new client
+npm run prisma:generate
+
+# Run migrations
+npm run prisma:migrate
+```
+
+## Technology Stack Explained
+
+### Core Technologies
+
+#### TypeScript
+- Provides static typing for JavaScript
+- Catches errors at compile time
+- Better IDE support and code completion
+- Improves code maintainability
+
+#### Express.js
+- Lightweight web framework for Node.js
+- Robust routing and middleware system
+- Large ecosystem of plugins
+- Industry standard for Node.js APIs
+
+#### Prisma (ORM)
+- Type-safe database queries
+- Auto-generated TypeScript types
+- Database agnostic (supports PostgreSQL, MySQL, SQLite)
+- Simplified database migrations
+- Reduces boilerplate code
+
+#### PostgreSQL (Default Database)
+- ACID compliant relational database
+- Robust and reliable
+- Excellent JSON support
+- Strong community and tooling
+- Can be easily replaced with MySQL or SQLite
+
+### Development Tools
+
+#### Zod
+- Runtime type validation
+- TypeScript-first schema validation
+- Automatic type inference
+- Validates API request/response data
+
+#### Winston
+- Flexible logging library
+- Multiple log levels (error, info, debug)
+- Supports multiple logging targets
+- Production-grade logging capabilities
+
+#### Jest
+- Popular testing framework
+- Supports TypeScript out of the box
+- Snapshot testing
+- Code coverage reporting
+- Mocking capabilities
+
+#### ESLint & Prettier
+- ESLint: Code quality and style checking
+- Prettier: Automatic code formatting
+- Ensures consistent code style
+- Catches common errors
 
 
 
