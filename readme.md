@@ -326,54 +326,112 @@ Coverage reports are generated in the `coverage/` directory when running:
 npm run test:cov
 ```
 
-## Database Configuration
+## 🗄️ Database Configuration
 
-Prisma supports multiple databases. Here's how to configure each one:
+Prisma supports multiple databases. Here's how to configure popular options:
 
-### PostgreSQL (Default)
+### 1. PostgreSQL (Default)
 ```env
 DATABASE_URL="postgresql://myuser:mypassword@localhost:5432/mydb"
 ```
 ```bash
-# Install PostgreSQL
+# MacOS
 brew install postgresql@14
+
+# Ubuntu
+sudo apt install postgresql
 ```
 
-### MySQL
+### 2. MySQL
 ```env
 DATABASE_URL="mysql://myuser:mypassword@localhost:3306/mydb"
 ```
 ```bash
-# Install MySQL
+# MacOS
 brew install mysql
+
+# Ubuntu
+sudo apt install mysql-server
 ```
 
-### SQLite (Lightweight, file-based)
+### 3. MongoDB (with Prisma)
+```env
+DATABASE_URL="mongodb://myuser:mypassword@localhost:27017/mydb"
+```
+```bash
+# MacOS
+brew install mongodb-community
+
+# Ubuntu
+sudo apt install mongodb
+```
+
+### 4. SQLite (Lightweight)
 ```env
 DATABASE_URL="file:./dev.db"
 ```
 No installation needed - perfect for development/testing.
 
-### Steps to Switch Databases:
+### 5. Microsoft SQL Server
+```env
+DATABASE_URL="sqlserver://localhost:1433;database=mydb;user=myuser;password=mypassword;trustServerCertificate=true"
+```
+```bash
+# Using Docker
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=yourStrong(!)Password" -p 1433:1433 mcr.microsoft.com/mssql/server:2019-latest
+```
+
+### 🔄 Steps to Switch Databases:
 
 1. **Update schema.prisma**
 ```prisma
 datasource db {
-  provider = "postgresql" // Change to "mysql" or "sqlite"
+  provider = "postgresql" // Change to: "mysql", "mongodb", "sqlite", "sqlserver"
   url      = env("DATABASE_URL")
 }
 ```
 
-2. **Update .env file with new DATABASE_URL**
+2. **Install Required Dependencies**
+```bash
+# For MongoDB
+npm install @prisma/client @prisma/mongodb-client
 
-3. **Reset Prisma**
+# For SQL Server
+npm install @prisma/client tedious
+```
+
+3. **Update Environment Variables**
+```bash
+# Update .env file with new DATABASE_URL
+```
+
+4. **Reset Prisma and Database**
 ```bash
 # Generate new client
-npm run prisma:generate
+npx prisma generate
 
-# Run migrations
-npm run prisma:migrate
+# Run migrations (not needed for MongoDB)
+npx prisma migrate reset
+npx prisma migrate dev
 ```
+
+### 📊 Database Comparison
+
+| Database        | Best For                    | Pros                        | Cons                         |
+|----------------|----------------------------|-----------------------------|-----------------------------|
+| PostgreSQL     | Complex applications       | Feature-rich, ACID         | More resource intensive     |
+| MySQL          | Web applications          | Popular, well-supported    | Less advanced features      |
+| MongoDB        | Flexible data structures  | Schema-less, scalable      | No ACID by default         |
+| SQLite         | Development, small apps   | Zero configuration         | Not for high concurrency   |
+| SQL Server     | Enterprise applications   | Enterprise features        | Higher resource usage      |
+
+### 🔍 Choosing the Right Database
+
+- **PostgreSQL**: Best for complex queries and data integrity
+- **MySQL**: Great for simple to medium complexity web apps
+- **MongoDB**: Ideal for flexible, document-based data
+- **SQLite**: Perfect for development and small applications
+- **SQL Server**: Suitable for enterprise Windows environments
 
 ## Technology Stack Explained
 
