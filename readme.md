@@ -1,5 +1,30 @@
 # Node.js TypeScript Clean Architecture API
 
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+  - [PostgreSQL Setup](#postgresql-setup)
+    - [For MacOS](#for-macos)
+    - [For Ubuntu/Debian](#for-ubuntudebian)
+  - [Environment Setup](#environment-setup)
+  - [Database Migration](#database-migration)
+- [Development](#development)
+- [API Testing](#api-testing)
+  - [Users Endpoints](#users-endpoints)
+- [Running Tests](#running-tests)
+  - [Test Structure](#test-structure)
+  - [Running Tests](#running-tests-1)
+  - [Test Coverage](#test-coverage)
+- [Code Quality](#code-quality)
+- [Troubleshooting](#troubleshooting)
+  - [Database Issues (MacOS)](#database-issues-macos)
+  - [Database Issues (Ubuntu/Debian)](#database-issues-ubuntudebian)
+  - [Common Errors](#common-errors)
+- [Project Structure](#project-structure)
+- [Available Scripts](#available-scripts)
+
 ## **Project Overview**
 This project implements a production-ready Node.js application using TypeScript and Clean Architecture principles. It includes a complete CRUD API with user management, database integration, validation, and logging.
 
@@ -21,8 +46,8 @@ This project implements a production-ready Node.js application using TypeScript 
 
 1. **Clone and Install Dependencies**
    ```bash
-   git clone <repository-url>
-   cd <project-name>
+   git clone https://github.com/devsphere-apps/nodejs-boilerplate.git
+   cd nodejs-boilerplate
    npm install
    ```
 
@@ -229,14 +254,22 @@ src/
 ├── config/         # Configuration files
 ├── controllers/    # Request handlers
 ├── services/       # Business logic
-├── models/         # Data models and schemas
+├── models/         # Data models
 ├── middlewares/    # Express middlewares
 ├── routes/         # API routes
 ├── utils/          # Utility functions
 ├── prisma/         # Prisma configuration
-├── tests/          # Test files
-├── app.ts          # Express app setup
-└── server.ts       # Entry point
+└── tests/          # Test files
+    ├── setup.ts                # Test configuration
+    ├── fixtures/              # Test data
+    │   └── user.fixtures.ts
+    ├── unit/                 # Unit tests
+    │   ├── services/
+    │   │   └── user.service.test.ts
+    │   └── controllers/
+    │       └── user.controller.test.ts
+    └── integration/          # Integration tests
+        └── user.integration.test.ts
 ```
 
 ## **Available Scripts**
@@ -248,6 +281,35 @@ src/
 - `npm run format`: Format code
 - `npm run prisma:generate`: Generate Prisma client
 - `npm run prisma:migrate`: Run database migrations
+
+## **Testing**
+
+### **Test Structure**
+- `tests/setup.ts`: Global test configuration and mocks
+- `tests/fixtures/`: Contains test data and mock objects
+- `tests/unit/`: Unit tests for services and controllers
+- `tests/integration/`: End-to-end API tests
+
+### **Running Tests**
+```bash
+# Run all tests
+npm test
+
+# Run tests with coverage
+npm run test:cov
+
+# Run only unit tests
+npm run test:unit
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+### **Test Coverage**
+Coverage reports are generated in the `coverage/` directory when running:
+```bash
+npm run test:cov
+```
 
 
 
